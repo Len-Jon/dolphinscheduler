@@ -69,6 +69,7 @@ public class DataxUtils {
                 return DATAX_READER_PLUGIN_CLICKHOUSE;
             case HIVE:
             case PRESTO:
+            case DAMENG:
             default:
                 return DATAX_READER_PLUGIN_RDBMS;
         }
@@ -90,6 +91,7 @@ public class DataxUtils {
                 return DATAX_WRITER_PLUGIN_DATABEND;
             case HIVE:
             case PRESTO:
+            case DAMENG:
             default:
                 return DATAX_WRITER_PLUGIN_RDBMS;
         }
@@ -111,6 +113,7 @@ public class DataxUtils {
                 return new HiveStatementParser(sql);
             case PRESTO:
                 return new PrestoStatementParser(sql);
+            case DAMENG:
             default:
                 return null;
         }

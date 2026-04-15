@@ -1,78 +1,95 @@
-# Apache Dolphinscheduler
+# Apache Dolphinscheduler 3.2.2-Datax组件DAMENG定制
 
-[![License](https://img.shields.io/badge/license-Apache%202-4EB1BA.svg)](https://www.apache.org/licenses/LICENSE-2.0.html)
-![codecov](https://codecov.io/gh/apache/dolphinscheduler/branch/dev/graph/badge.svg)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=apache-dolphinscheduler&metric=alert_status)](https://sonarcloud.io/dashboard?id=apache-dolphinscheduler)
-[![Twitter Follow](https://img.shields.io/twitter/follow/dolphinschedule.svg?style=social&label=Follow)](https://twitter.com/dolphinschedule) <!-- markdown-link-check-disable-line -->
-[![Slack Status](https://img.shields.io/badge/slack-join_chat-white.svg?logo=slack&style=social)](https://s.apache.org/dolphinscheduler-slack)
-[![CN doc](https://img.shields.io/badge/文档-中文版-blue.svg)](README_zh_CN.md)
+## 关于
 
-## About
+3.2.X版本数据源新增了达梦（DM），但是Datax节点中不可选择，只能使用自定义配置的方案，因此打算魔改一下此版本
 
-Apache DolphinScheduler is the modern data orchestration platform. Agile to create high performance workflow with low-code. It is also provided powerful user interface,
-dedicated to solving complex task dependencies in the data pipeline and providing various types of jobs available **out of the box**
+- 主要改前端支持，后端datax节点switch分支default调用的都是RDBMS的READER/WRITER，不用改，本版本只改了前端显式调用DAMENG
+- 已部署项目，可以编译dolphinscheduler-ui部分，dist的内容替换api-server/ui/的内容（推荐）
+- 未部署项目，可以使用官网的二进制包/源码包，然后参考已部署项目方式修改，二进制包部署参照官方文档有一堆问题
+- 未部署项目，可以直接使用本项目release（todo，没有就是没传）
 
-The key features for DolphinScheduler are as follows:
+## 前端编译说明
 
-- Easy to deploy, provide four ways to deploy which including Standalone, Cluster, Docker and Kubernetes.
-- Easy to use, workflow can be created and managed by four ways, which including Web UI, [Python SDK](https://dolphinscheduler.apache.org/python/main/index.html), Yaml file and Open API
-- Highly reliable and high availability, decentralized architecture with multi-master and multi-worker, native supports horizontal scaling.
-- High performance, its performance is N times faster than other orchestration platform and it can support tens of millions of tasks per day
-- Cloud Native, DolphinScheduler supports orchestrating multi-cloud/data center workflow, and supports custom task type
-- Versioning both workflow and workflow instance(including tasks)
-- Various state control of workflow and task, support pause/stop/recover them in any time
-- Multi-tenancy support
-- Others like backfill support(Web UI native), permission control including project, resource and data source
+### 一、环境要求
 
-## QuickStart
+1. Node.js 16.x.x
+2. pnpm 7.x.x
 
-- For quick experience
-  - Want to [start with standalone](https://dolphinscheduler.apache.org/en-us/docs/3.1.5/guide/installation/standalone)
-  - Want to [start with Docker](https://dolphinscheduler.apache.org/en-us/docs/3.1.5/guide/start/docker)
-- For Kubernetes
-  - [Start with Kubernetes](https://dolphinscheduler.apache.org/en-us/docs/3.1.5/guide/installation/kubernetes)
-- For Terraform
-  - [Start with Terraform](deploy/terraform/README.md) 
+### 二、环境安装
 
-## User Interface Screenshots
+1. 安装Node.js
 
-* **Homepage:** Project and workflow overview, including the latest workflow instance and task instance status statistics.
-![home](images/home.png)
+访问 [Node.js 官网](https://nodejs.org/) 下载 16.x.x 版本并安装。
 
-* **Workflow Definition:** Create and manage workflow by drag and drop, easy to build and maintain complex workflow, support [bulk of tasks](https://dolphinscheduler.apache.org/en-us/docs/3.1.5/introduction-to-functions_menu/task_menu) out of box.
-![workflow-definition](images/workflow-definition.png)
+> 也可以选择装个nvm，多版本管理比较好
 
-* **Workflow Tree View:** Abstract tree structure could clearer understanding of the relationship between tasks
-![workflow-tree](images/workflow-tree.png)
+```bash
+node --version
+# 输出: v16.20.2
+```
 
-* **Data source:** Manage support multiple external data sources, provide unified data access capabilities for such as MySQL, PostgreSQL, Hive, Trino, etc.
-![data-source](images/data-source.png)
+2. 安装 pnpm
 
-* **Monitor:** View the status of the master, worker and database in real time, including server resource usage and load, do quick health check without logging in to the server.
-![monitor](images/monitor.png)
+```bash
+npm install -g pnpm@7
+```
 
-## Suggestions & Bug Reports
+3. 安装依赖
 
-Follow [this guide](https://github.com/apache/dolphinscheduler/issues/new/choose) to report your suggestions or bugs.
+```bash
+pnpm install
+```
 
-## Contributing
+### 三、构建生产环境
 
-The community welcomes everyone to contribute, please refer to this page to find out more: [How to contribute](docs/docs/en/contribute/join/contribute.md),
-find the good first issue in [here](https://github.com/apache/dolphinscheduler/contribute) if you are new to DolphinScheduler.
+跳过类型检查直接构建:
 
-## Community
+```bash
+npx vite build --mode production
+```
 
-Welcome to join the Apache DolphinScheduler community by:
+构建完成后，产物位于 `dist/` 目录:
+```
+dist/
+├── assets/           # 静态资源 (JS, CSS, 图片等)
+├── images/          # 图片资源
+├── favicon.ico     # 网站图标
+├── index.html      # 入口 HTML
+└── lodash.min.js   # 工具库
+```
 
-- Join the [DolphinScheduler Slack](https://s.apache.org/dolphinscheduler-slack) to keep in touch with the community
-- Follow the [DolphinScheduler Twitter](https://twitter.com/dolphinschedule) and get the latest news <!-- markdown-link-check-disable-line -->
-- Subscribe DolphinScheduler mail list, [users@dolphinscheduler.apache.org](mailto:users-subscribe@dolphinscheduler.apache.org) for user and [dev@dolphinscheduler.apache.org](mailto:dev-subscribe@dolphinscheduler.apache.org) for developer
+---
 
-# Landscapes
+### 四、生产环境部署
 
-<p align="center">
-<br/><br/>
-<img src="./images/cncf-landscape-white-bg.jpg" width="175" alt="cncf-landscape"/>&nbsp;&nbsp;<img src="./images/cncf-white-bg.jpg" width="200" alt="cncf-logo"/>
-<br/><br/>
-DolphinScheduler enriches the <a href="https://landscape.cncf.io/?item=orchestration-management--scheduling-orchestration--dolphinscheduler">CNCF CLOUD NATIVE Landscape.</a >
-</p >
+
+1. 复制新构建产物
+
+```bash
+# 将 dist/ 目录内容复制到api-server/ui/下
+scp -r dist/* dolphinscheduler@xxx:/path/to/dolphinscheduler/api-server/ui/
+```
+
+2. 重启服务（不重启好像也行）
+
+```bash
+# 重启 api-server
+bash bin/dolphinscheduer-daemon.sh stop api-server
+bash bin/dolphinscheduer-daemon.sh start api-server
+```
+
+3. 浏览器缓存清除
+
+> 或使用**无痕/隐私模式**访问页面。
+
+
+## PS
+
+> 可选：关于Datax，建议去[达梦官网](https://eco.dameng.com/download/)下载新的驱动
+>
+> datax很久没更新，用的Dm7JdbcDriver17-7.6.0.142.jar，连接Dm8可能会有点问题，用DmJdbcDriver8.jar替换掉原来的
+>
+> 这里可以用AI生成对应的教程，注意AI返回的命名，因为达梦驱动的命名方式变更过，和java的1.8改成8类似，驱动名18改成8
+>
+> 项目部署比较着急可以忽略

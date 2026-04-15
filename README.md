@@ -99,3 +99,29 @@ bash bin/dolphinscheduer-daemon.sh start api-server
 > 这里可以用AI生成对应的教程，注意AI返回的命名，因为达梦驱动的命名方式变更过，和java的1.8改成8类似，驱动名18改成8
 >
 > 项目部署比较着急可以忽略
+
+
+## 后端二进制包踩坑记录
+
+### bin/*-all.sh脚本无效
+
+因为官方的二进制包没有`install.env`，自己在env新建一个，参考如下配置，installPath是我部署的习惯位置，二进制包就懒得改名了
+
+```bash
+# ---------------------------------------------------------
+# INSTALL MACHINE
+# ---------------------------------------------------------
+# Due to the master, worker, and API server being deployed on a single node, the IP of the server is the machine IP or localhost
+ips="localhost"
+sshPort="22"
+masters="localhost"
+workers="localhost:default"
+alertServer="localhost"
+apiServers="localhost"
+
+# DolphinScheduler installation path, it will auto-create if not exists
+installPath=/data/apache-dolphinscheduler-3.2.2-bin
+
+# Deploy user, use the user you create in section **Configure machine SSH password-free login**
+deployUser="dolphinscheduler"
+```

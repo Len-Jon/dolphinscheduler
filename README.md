@@ -13,7 +13,7 @@
 - 主要改前端支持，后端datax节点switch分支default调用的都是RDBMS的READER/WRITER，不用改，本版本只改了前端显式调用DAMENG
 - 已部署项目，可以编译dolphinscheduler-ui部分，dist的内容替换api-server/ui/的内容（推荐）
 - 未部署项目，可以使用官网的二进制包/源码包，然后参考已部署项目方式修改，二进制包部署参照官方文档有一堆问题
-- 未部署项目，可以直接使用本项目release（todo，没有就是没传）
+- 未部署项目，可以直接使用本项目release
 
 ## 前端编译说明
 
@@ -105,7 +105,7 @@ bash bin/dolphinscheduer-daemon.sh start api-server
 
 ### bin/*-all.sh脚本无效
 
-因为官方的二进制包没有`install.env`，自己在env新建一个，参考如下配置，installPath是我部署的习惯位置，二进制包就懒得改名了
+因为官方的二进制包没有`install_env.sh`，自己在env新建一个，参考如下配置，installPath是我部署的习惯位置，二进制包就懒得改名了
 
 ```bash
 # ---------------------------------------------------------
